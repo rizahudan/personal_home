@@ -1,6 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:personal_home/core/entity/device.dart';
 
 class DeviceModel extends Equatable {
+  final int id;
+  final String ipv4;
+  final String ipv6;
+  final String macAddress;
+
   const DeviceModel({
     required this.id,
     required this.ipv4,
@@ -8,12 +14,7 @@ class DeviceModel extends Equatable {
     required this.macAddress,
   });
 
-  final int id;
-  final String ipv4;
-  final String ipv6;
-  final String macAddress;
-
-  factory DeviceModel.fromJson(Map<String, dynamic> json){
+  factory DeviceModel.fromJson(Map<String, dynamic> json) {
     return DeviceModel(
       id: json["id"] ?? 0,
       ipv4: json["ipv4"] ?? "",
@@ -23,13 +24,22 @@ class DeviceModel extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "ipv4": ipv4,
-    "ipv6": ipv6,
-    "mac_address": macAddress,
-  };
+        "id": id,
+        "ipv4": ipv4,
+        "ipv6": ipv6,
+        "mac_address": macAddress,
+      };
 
   @override
   List<Object?> get props => [
-    id, ipv4, ipv6, macAddress, ];
+        id,
+        ipv4,
+        ipv6,
+        macAddress,
+      ];
+
+  DeviceEntity toEntity() {
+    return DeviceEntity(
+        id: id, ipv4: ipv4, ipv6: ipv6, macAddress: macAddress, status: false);
+  }
 }

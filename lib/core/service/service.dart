@@ -11,4 +11,9 @@ class DeviceService implements DevicePortService {
   Future<List<DeviceEntity>> getList() async {
     return await _repo.getList();
   }
+
+  @override
+  Future<void> create(DeviceEntity device) async {
+    return await _repo.create(device);
+  }
 }

@@ -1,6 +1,6 @@
+import 'package:equatable/equatable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:equatable/equatable.dart';
 
 class SqliteConfig extends Equatable {
   const SqliteConfig({
@@ -9,19 +9,20 @@ class SqliteConfig extends Equatable {
 
   final String dbName;
 
-  factory SqliteConfig.fromJson(Map<String, dynamic> json){
+  factory SqliteConfig.fromJson(Map<String, dynamic> json) {
     return SqliteConfig(
       dbName: json["db_name"] ?? "",
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "db_name": dbName,
-  };
+        "db_name": dbName,
+      };
 
   @override
   List<Object?> get props => [
-    dbName, ];
+        dbName,
+      ];
 }
 
 class SqliteAdapter {
@@ -47,6 +48,10 @@ class SqliteAdapter {
 
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _config.dbName);
+
+    // Delete the database
+    await deleteDatabase(path);
+
     return openDatabase(path);
   }
 }

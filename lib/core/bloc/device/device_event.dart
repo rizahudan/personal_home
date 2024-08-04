@@ -1,4 +1,10 @@
 part of 'device_bloc.dart';
 
-@immutable
-sealed class DeviceEvent {}
+sealed class DeviceEvent extends Equatable {
+  const DeviceEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class DeviceEventGetList extends DeviceEvent {}
