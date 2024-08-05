@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:personal_home/core/bloc/device/device_bloc.dart';
+import 'package:personal_home/core/entity/device.dart';
 
 class AddDevicePage extends StatelessWidget {
   static const routeName = '/add-device';
   final TextEditingController _controllerMacAddress = TextEditingController();
+  final TextEditingController _controllerLabel = TextEditingController();
   final TextEditingController _controllerIpv4 = TextEditingController();
   final TextEditingController _controllerIpv6 = TextEditingController();
 
@@ -24,6 +28,11 @@ class AddDevicePage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             TextField(
+              controller: _controllerLabel,
+              decoration: const InputDecoration(labelText: 'Enter Label'),
+            ),
+            const SizedBox(height: 20),
+            TextField(
               controller: _controllerIpv4,
               decoration: const InputDecoration(labelText: 'Enter IPv4'),
             ),
@@ -35,11 +44,23 @@ class AddDevicePage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                final data = _controllerMacAddress.text;
-                if (data.isNotEmpty) {
-                  // BlocProvider.of<DataBloc>(context).add(AddData(data));
-                  // Navigator.pop(context);
+                if (_controllerLabel.text.isEmpty &&
+                    _controllerMacAddress.text.isEmpty &&
+                    _controllerIpv4.text.isEmpty &&
+                    _controllerIpv6.text.isEmpty) {
+                  return;
                 }
+                final device = DeviceEntity(
+                  id: 0,
+                  macAddress: _controllerMacAddress.text,
+                  label: _controllerLabel.text,
+                  ipv4: _controllerIpv4.text,
+                  ipv6: _controllerIpv6.text,
+                  status: false,
+                );
+                BlocProvider.of<DeviceBloc>(context)
+                    .add(DeviceEventInsert(device));
+                Navigator.pop(context);
               },
               child: const Text('Add Data'),
             )

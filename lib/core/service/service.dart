@@ -13,7 +13,7 @@ class DeviceService implements DevicePortService {
   }
 
   @override
-  Future<void> create(DeviceEntity device) async {
-    return await _repo.create(device);
+  Future<void> insert(DeviceEntity device) async {
+    return await _repo.insert(device);
   }
 }

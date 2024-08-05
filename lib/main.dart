@@ -5,6 +5,7 @@ import 'package:personal_home/core/config/config.dart';
 import 'package:personal_home/core/dependency_injection.dart';
 import 'package:personal_home/presentation/page/home_page.dart';
 import 'package:personal_home/presentation/route.dart';
+import 'package:personal_home/presentation/route_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           colorSchemeSeed: const Color.fromRGBO(86, 80, 14, 171),
         ),
         themeMode: ThemeMode.dark,
+        navigatorObservers: [routeObserver],
         initialRoute: HomePage.routeName,
         onGenerateRoute: AppRoutes.generateRoute,
       ),

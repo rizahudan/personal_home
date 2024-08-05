@@ -2,5 +2,5 @@ import 'package:personal_home/core/entity/device.dart';
 
 abstract class DevicePortService {
   Future<List<DeviceEntity>> getList();
-  Future<void> create(DeviceEntity device);
+  Future<void> insert(DeviceEntity device);
 }

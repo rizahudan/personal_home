@@ -49,9 +49,24 @@ class SqliteAdapter {
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _config.dbName);
 
+    // TODO: disable delete db
     // Delete the database
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
-    return openDatabase(path);
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute('''
+            create table device ( 
+              id integer primary key autoincrement, 
+              mac_address text not null,
+              label text not null,
+              ipv4 text not null,
+              ipv6 text not null
+            )
+          ''');
+      },
+    );
   }
 }

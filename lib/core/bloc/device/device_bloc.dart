@@ -12,11 +12,19 @@ class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
 
   DeviceBloc() : super(DeviceStateInitial()) {
     on<DeviceEventGetList>(_onGetList);
+    on<DeviceEventInsert>(_onInsert);
   }
 
   void _onGetList(DeviceEventGetList event, Emitter<DeviceState> emit) async {
     emit(DeviceStateLoading());
     final list = await _deviceService.getList();
     emit(DeviceStateLoaded(devices: list));
+  }
+
+  void _onInsert(DeviceEventInsert event, Emitter<DeviceState> emit) async {
+    emit(DeviceStateLoading());
+    await _deviceService.insert(event.device);
+    // final list = await _deviceService.getList();
+    // emit(DeviceStateLoaded(devices: list));
   }
 }

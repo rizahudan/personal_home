@@ -8,3 +8,12 @@ sealed class DeviceEvent extends Equatable {
 }
 
 class DeviceEventGetList extends DeviceEvent {}
+
+class DeviceEventInsert extends DeviceEvent {
+  final DeviceEntity device;
+
+  const DeviceEventInsert(this.device);
+
+  @override
+  List<Object> get props => [device];
+}

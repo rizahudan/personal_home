@@ -21,7 +21,10 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
   void initState() {
     super.initState();
     _device = widget.device;
-    _pingService = PingService(ipAddress: _device.ipv4);
+    _pingService = PingService(
+      ipAddress: _device.ipv4,
+      interval: 5,
+    );
     _pingStream = _pingService.pingStream;
     _pingService.startPinging();
     _pingStream.listen((accessible) {
@@ -37,63 +40,74 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
     super.dispose();
   }
 
+  void _onTapCard() {
+    print("card");
+  }
+
+  void _onPressedWake() {
+    print("wake");
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Center(
-      child: Card(
-        elevation: 4, // Adjust the elevation as needed
-        shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(15.0), // Adjust the border radius as needed
-          side: BorderSide(
-            color: _device.status
-                ? Colors.green
-                : Colors.red, // Set the border color here
-            width: 5.0, // Set the border width here
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15),
+        onTap: _onTapCard,
+        child: Card(
+          elevation: 10, // Adjust the elevation as needed
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(15), // Adjust the border radius as needed
+            side: BorderSide(
+              color: _device.status
+                  ? Colors.green
+                  : Colors.red, // Set the border color here
+              width: 5.0, // Set the border width here
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: Text(_device.macAddress),
-            ),
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text("IPv4"),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(_device.ipv4),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text("IPv6"),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(_device.ipv6),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: const Text('BUY TICKETS'),
-                  onPressed: () {/* ... */},
-                ),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text("${_device.macAddress} (${_device.label})"),
+              ),
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("IPv4"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(_device.ipv4),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("IPv6"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(_device.ipv6),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: _onPressedWake,
+                    child: const Text('Wake'),
+                  ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
