@@ -17,3 +17,12 @@ class DeviceEventInsert extends DeviceEvent {
   @override
   List<Object> get props => [device];
 }
+
+class DeviceEventDelete extends DeviceEvent {
+  final int id;
+
+  const DeviceEventDelete(this.id);
+
+  @override
+  List<Object> get props => [id];
+}

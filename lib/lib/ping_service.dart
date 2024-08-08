@@ -7,13 +7,14 @@ class PingService {
   final String ipAddress;
   final int interval;
   final StreamController<bool> _pingController = StreamController<bool>();
+  Timer? _timer;
 
   PingService({required this.ipAddress, this.interval = 1});
 
   Stream<bool> get pingStream => _pingController.stream;
 
   void startPinging() {
-    Timer.periodic(Duration(seconds: interval), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: interval), (timer) async {
       final result = await ping(ipAddress);
       _pingController.add(result);
     });
@@ -36,7 +37,13 @@ class PingService {
     }
   }
 
+  void stopPinging() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
   void dispose() {
+    stopPinging();
     _pingController.close();
   }
 }

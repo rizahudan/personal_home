@@ -19,3 +19,5 @@ final class DeviceStateLoaded extends DeviceState {
   @override
   List<Object> get props => [devices];
 }
+
+final class DeviceStateSuccess extends DeviceState {}

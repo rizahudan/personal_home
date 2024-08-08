@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:personal_home/core/bloc/device/device_bloc.dart';
 import 'package:personal_home/core/entity/device.dart';
 import 'package:personal_home/lib/ping_service.dart';
+
+enum _CardAction { edit, delete }
 
 class DeviceCardItem extends StatefulWidget {
   final DeviceEntity device;
@@ -48,6 +52,51 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
     print("wake");
   }
 
+  void _onCardActionSelected(_CardAction value) {
+    if (value == _CardAction.edit) {
+    } else if (value == _CardAction.delete) {
+      _showDeleteConfirmation();
+    }
+  }
+
+  Future _showDeleteConfirmation() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BlocProvider.value(
+          value: BlocProvider.of<DeviceBloc>(context),
+          child: BlocListener<DeviceBloc, DeviceState>(
+            listener: (context, state) {
+              if (state is DeviceStateSuccess) {
+                Navigator.of(context).pop(); // Close the dialog if success
+              }
+            },
+            child: AlertDialog(
+              title: const Text('Confirm Action'),
+              content: Text(
+                  'Do you want to proceed ${_device.macAddress} (${_device.label})?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    BlocProvider.of<DeviceBloc>(context)
+                        .add(DeviceEventDelete(_device.id));
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -71,6 +120,39 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
             children: [
               ListTile(
                 title: Text("${_device.macAddress} (${_device.label})"),
+                trailing: PopupMenuButton<_CardAction>(
+                  onSelected: _onCardActionSelected,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<_CardAction>>[
+                      const PopupMenuItem<_CardAction>(
+                        value: _CardAction.edit,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Edit'),
+                            Icon(
+                              Icons.edit,
+                              color: Colors.blue,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem<_CardAction>(
+                        value: _CardAction.delete,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Delete'),
+                            Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ];
+                  },
+                ),
               ),
               Row(
                 children: [
