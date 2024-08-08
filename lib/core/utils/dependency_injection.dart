@@ -3,7 +3,7 @@ import 'package:personal_home/core/config/config.dart';
 import 'package:personal_home/core/repository/device.dart';
 import 'package:personal_home/core/service/service.dart';
 
-import 'adapter/database/sqlite.dart';
+import '../adapter/database/sqlite.dart';
 
 final locator = GetIt.instance;
 

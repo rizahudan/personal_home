@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_home/core/bloc/device/device_bloc.dart';
 import 'package:personal_home/core/entity/device.dart';
 
-class AddDevicePage extends StatelessWidget {
-  static const routeName = '/add-device';
+class FormDevicePage extends StatelessWidget {
+  static const routeName = '/form-device';
+
   final TextEditingController _controllerMacAddress = TextEditingController();
   final TextEditingController _controllerLabel = TextEditingController();
   final TextEditingController _controllerIpv4 = TextEditingController();
   final TextEditingController _controllerIpv6 = TextEditingController();
 
-  AddDevicePage({super.key});
+  FormDevicePage({super.key});
 
   @override
   Widget build(BuildContext context) {

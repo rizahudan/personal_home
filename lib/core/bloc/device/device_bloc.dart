@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:personal_home/core/dependency_injection.dart';
 import 'package:personal_home/core/entity/device.dart';
 import 'package:personal_home/core/service/service.dart';
+import 'package:personal_home/core/utils/dependency_injection.dart';
 
 part 'device_event.dart';
 part 'device_state.dart';

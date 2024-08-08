@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_home/core/bloc/provider.dart';
 import 'package:personal_home/core/config/config.dart';
-import 'package:personal_home/core/dependency_injection.dart';
+import 'package:personal_home/core/navigation/route.dart';
+import 'package:personal_home/core/navigation/route_observer.dart';
+import 'package:personal_home/core/utils/dependency_injection.dart';
 import 'package:personal_home/presentation/page/home_page.dart';
-import 'package:personal_home/presentation/route.dart';
-import 'package:personal_home/presentation/route_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

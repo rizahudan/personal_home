@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_home/core/bloc/device/device_bloc.dart';
-import 'package:personal_home/presentation/page/add_device_page.dart';
-import 'package:personal_home/presentation/route_observer.dart';
+import 'package:personal_home/core/navigation/route_observer.dart';
+import 'package:personal_home/presentation/page/form_device_page.dart';
 import 'package:personal_home/presentation/widget/home/device_card_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, AddDevicePage.routeName);
+          Navigator.pushNamed(context, FormDevicePage.routeName);
         },
         child: const Icon(Icons.add),
       ),
