@@ -5,15 +5,13 @@ class DeviceModel extends Equatable {
   final int id;
   final String label;
   final String macAddress;
-  final String ipv4;
-  final String ipv6;
+  final String ipv4Cidr;
 
   const DeviceModel({
     required this.id,
     required this.macAddress,
     required this.label,
-    required this.ipv4,
-    required this.ipv6,
+    required this.ipv4Cidr,
   });
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) {
@@ -21,8 +19,7 @@ class DeviceModel extends Equatable {
       id: json["id"] ?? 0,
       macAddress: json["mac_address"] ?? "",
       label: json["label"] ?? "",
-      ipv4: json["ipv4"] ?? "",
-      ipv6: json["ipv6"] ?? "",
+      ipv4Cidr: json["ipv4_cidr"] ?? "",
     );
   }
 
@@ -30,8 +27,7 @@ class DeviceModel extends Equatable {
         "id": id,
         "mac_address": macAddress,
         "label": label,
-        "ipv4": ipv4,
-        "ipv6": ipv6,
+        "ipv4_cidr": ipv4Cidr,
       };
 
   @override
@@ -39,8 +35,7 @@ class DeviceModel extends Equatable {
         id,
         macAddress,
         label,
-        ipv4,
-        ipv6,
+        ipv4Cidr,
       ];
 
   DeviceEntity toEntity() {
@@ -48,8 +43,7 @@ class DeviceModel extends Equatable {
       id: id,
       macAddress: macAddress,
       label: label,
-      ipv4: ipv4,
-      ipv6: ipv6,
+      ipv4Cidr: ipv4Cidr,
       status: false,
     );
   }

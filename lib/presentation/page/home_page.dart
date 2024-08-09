@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_home/core/bloc/device/device_bloc.dart';
-import 'package:personal_home/core/navigation/route_observer.dart';
+import 'package:personal_home/navigation/route_observer.dart';
 import 'package:personal_home/presentation/page/form_device_page.dart';
 import 'package:personal_home/presentation/widget/home/device_card_item.dart';
 

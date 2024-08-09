@@ -62,8 +62,7 @@ class SqliteAdapter {
               id integer primary key autoincrement, 
               mac_address text not null,
               label text not null,
-              ipv4 text not null,
-              ipv6 text not null
+              ipv4_cidr text not null
             )
           ''');
       },

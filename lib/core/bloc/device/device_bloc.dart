@@ -25,11 +25,19 @@ class DeviceBloc extends Bloc<DeviceEvent, DeviceState> {
   void _onInsert(DeviceEventInsert event, Emitter<DeviceState> emit) async {
     emit(DeviceStateLoading());
     await _deviceService.insert(event.device);
+    emit(DeviceStateSuccess());
   }
 
   void _onDelete(DeviceEventDelete event, Emitter<DeviceState> emit) async {
     emit(DeviceStateLoading());
-    await _deviceService.delete(event.id);
-    emit(DeviceStateSuccess());
+
+    try {
+      await _deviceService.delete(event.id);
+      emit(DeviceStateSuccess());
+    } catch (e, s) {
+      print('Exception details:\n $e');
+      print('Stack trace:\n $s');
+      emit(DeviceStateFailure());
+    }
   }
 }

@@ -21,3 +21,5 @@ final class DeviceStateLoaded extends DeviceState {
 }
 
 final class DeviceStateSuccess extends DeviceState {}
+
+final class DeviceStateFailure extends DeviceState {}

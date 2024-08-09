@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_home/core/bloc/device/device_bloc.dart';
 import 'package:personal_home/core/entity/device.dart';
+import 'package:personal_home/core/utils/ui/snackbar_utils.dart';
 import 'package:personal_home/lib/ping_service.dart';
+import 'package:wake_on_lan/wake_on_lan.dart';
 
 enum _CardAction { edit, delete }
 
@@ -48,8 +51,21 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
     print("card");
   }
 
-  void _onPressedWake() {
-    print("wake");
+  Future<void> _onPressedWake() async {
+    final macValidation = MACAddress.validate(_device.macAddress);
+    final ipValidation =
+        IPAddress.validate(_device.ipv4, type: InternetAddressType.IPv4);
+
+    if (macValidation.state && ipValidation.state) {
+      MACAddress macAddress = MACAddress(_device.macAddress);
+      IPAddress ipAddress = IPAddress(
+        _device.broadcastIpv4,
+        type: InternetAddressType.IPv4,
+      );
+
+      WakeOnLAN wakeOnLan = WakeOnLAN(ipAddress, macAddress);
+      await wakeOnLan.wake();
+    }
   }
 
   void _onCardActionSelected(_CardAction value) {
@@ -68,7 +84,10 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
           child: BlocListener<DeviceBloc, DeviceState>(
             listener: (context, state) {
               if (state is DeviceStateSuccess) {
+                showSuccessSnackBar(context);
                 Navigator.of(context).pop(); // Close the dialog if success
+              } else if (state is DeviceStateFailure) {
+                showFailureSnackBar(context);
               }
             },
             child: AlertDialog(
@@ -156,25 +175,31 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
               ),
               Row(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text("IPv4"),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("IPv4"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("Brodcast IPv4"),
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(_device.ipv4),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text("IPv6"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(_device.ipv6),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(_device.ipv4),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(_device.broadcastIpv4),
+                      ),
+                    ],
                   ),
                 ],
               ),

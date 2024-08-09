@@ -22,8 +22,7 @@ class DeviceRepository implements DevicePortRepository {
       id: device.id,
       macAddress: device.macAddress,
       label: device.label,
-      ipv4: device.ipv4,
-      ipv6: device.ipv6,
+      ipv4Cidr: device.ipv4Cidr,
     );
     final db = await _sqlite.database;
     await db.transaction((txn) async {
@@ -53,8 +52,7 @@ class DeviceRepository implements DevicePortRepository {
       id: device.id,
       macAddress: device.macAddress,
       label: device.label,
-      ipv4: device.ipv4,
-      ipv6: device.ipv6,
+      ipv4Cidr: device.ipv4Cidr,
     );
 
     final db = await _sqlite.database;
