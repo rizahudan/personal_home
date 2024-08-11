@@ -7,6 +7,7 @@ import 'package:personal_home/core/bloc/device/device_bloc.dart';
 import 'package:personal_home/core/entity/device.dart';
 import 'package:personal_home/core/utils/ui/snackbar_utils.dart';
 import 'package:personal_home/lib/ping_service.dart';
+import 'package:personal_home/presentation/page/form_device_page.dart';
 import 'package:wake_on_lan/wake_on_lan.dart';
 
 enum _CardAction { edit, delete }
@@ -70,6 +71,14 @@ class _DeviceCardItemState extends State<DeviceCardItem> {
 
   void _onCardActionSelected(_CardAction value) {
     if (value == _CardAction.edit) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FormDevicePage(
+            device: _device,
+          ),
+        ),
+      );
     } else if (value == _CardAction.delete) {
       _showDeleteConfirmation();
     }

@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> with RouteAware {
           if (state is DeviceStateInitial) {
             return const Center(child: Text('initial'));
           } else if (state is DeviceStateLoading) {
-            return const Center(child: Text('loading'));
+            return const CircularProgressIndicator();
           } else if (state is DeviceStateLoaded) {
             if (state.devices.isEmpty) {
               return const Center(child: Text('No Data'));

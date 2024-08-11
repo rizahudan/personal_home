@@ -35,6 +35,16 @@ class DeviceEntity extends Equatable {
     );
   }
 
+  factory DeviceEntity.empty() {
+    return DeviceEntity(
+      id: 0,
+      macAddress: '',
+      label: '',
+      ipv4Cidr: '',
+      status: false,
+    );
+  }
+
   factory DeviceEntity.fromJson(Map<String, dynamic> json) {
     return DeviceEntity(
       id: json["id"] ?? 0,
@@ -62,12 +72,19 @@ class DeviceEntity extends Equatable {
         status,
       ];
 
-  static String getIpv4(ipv4AdressWithCidr) {
+  static String getIpv4(String ipv4AdressWithCidr) {
+    if (ipv4AdressWithCidr.isEmpty) {
+      return "";
+    }
     List<String> addressParts = ipv4AdressWithCidr.split('/');
     return addressParts[0];
   }
 
-  static String getBrodcastIpv4(ipv4AdressWithCidr) {
+  static String getBrodcastIpv4(String ipv4AdressWithCidr) {
+    if (ipv4AdressWithCidr.isEmpty) {
+      return "";
+    }
+
     String ip = "";
     String cidr = '24';
     List<String> addressParts = ipv4AdressWithCidr.split('/');
