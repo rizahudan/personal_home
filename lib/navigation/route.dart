@@ -6,9 +6,15 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case HomePage.routeName:
-        return MaterialPageRoute(builder: (context) => const HomePage());
+        return MaterialPageRoute(
+          builder: (context) => const HomePage(),
+          settings: settings,
+        );
       case FormDevicePage.routeName:
-        return MaterialPageRoute(builder: (context) => FormDevicePage());
+        return MaterialPageRoute(
+          builder: (context) => FormDevicePage(),
+          settings: settings,
+        );
       default:
         return MaterialPageRoute(builder: ((ctx) {
           return const Scaffold(
